@@ -44,7 +44,5 @@ detect_build_necessity() {
 }
 
 if (( $# != 2 )); then usage && exit 1; fi
-
 if "${RUNNER_DEBUG:-false}"; then set -x; fi
-
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then detect_build_necessity "$@"; fi

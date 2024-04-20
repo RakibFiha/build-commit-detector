@@ -22,8 +22,10 @@ detect_build_necessity() {
   IFS=' ' read -r -a keywords <<< "$keywords_str"
 
   case $commit_msg in
-    --|' ') commit_msg="$(git log --format=%B -n 1 HEAD)" ;;
-    *) log_warning "commit_msg is set as:  '$commit_msg'" ;;
+    --|' ')
+      log_warning "commit_msg: is not set; using '$(git log --format=%B -n 1 HEAD)'"
+      commit_msg="$(git log --format=%B -n 1 HEAD)" ;;
+    *) : ;;
   esac
 
   log_info "keywords: ${keywords[*]}"

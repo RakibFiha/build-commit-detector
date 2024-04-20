@@ -33,7 +33,7 @@ detect_build_necessity() {
   for keyword in "${keywords[@]}"; do
     log_info "keyword: $keyword"
     if grep -qw -e "$keyword" <<< "$commit_msg"; then
-      echo "build_necessarry=false" | tee -a "${GITHUB_ENV:-/dev/null}" "${GITHUB_OUTPUT:-/dev/null}"
+      echo "build_necessary=false" | tee -a "${GITHUB_ENV:-/dev/null}" "${GITHUB_OUTPUT:-/dev/null}"
       if [[ "${BUILD_COMMIT_DETECTOR_STRICTNESS:-low}" == "high" ]]; then
         log_err "BUILD_COMMIT_DETECTOR_STRICTNESS is set to high... Exiting..." && exit 1
       else
@@ -42,7 +42,7 @@ detect_build_necessity() {
     fi
   done
 
-  echo "build_necessarry=true" | tee -a "${GITHUB_ENV:-/dev/null}" "${GITHUB_OUTPUT:-/dev/null}"
+  echo "build_necessary=true" | tee -a "${GITHUB_ENV:-/dev/null}" "${GITHUB_OUTPUT:-/dev/null}"
 }
 
 if (( $# != 2 )); then usage && exit 1; fi

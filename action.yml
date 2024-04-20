@@ -14,9 +14,9 @@ inputs:
     default: less
 
 outputs:
-  build_necessarry:
+  build_necessary:
     description: outputs to check if build is necessary, true or false
-    value: ${{ steps.build_commit_detect.outputs.build_necessarry }}
+    value: ${{ steps.build_commit_detect.outputs.build_necessary }}
 
 runs:
   using: "composite"

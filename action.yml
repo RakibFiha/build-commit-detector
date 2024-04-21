@@ -10,7 +10,7 @@ inputs:
     description: "Keywords, space seperated string to match word, to skip build, for example skip-ci, skip-build"
     default: "skip-ci skip-build"
   strictness:
-    description: "string, value can be less or high"
+    description: "string, value can be less, moderate or high"
     default: less
 
 outputs:

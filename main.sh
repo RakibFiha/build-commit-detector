@@ -19,7 +19,7 @@ detect_build_necessity() {
 
   IFS=' ' read -r -a keywords <<< "$keywords_str"
 
-  if type -p ggrep > /dev/null; then grep=ggrep; else grep=grep; fi
+  if type -p ggrep > /dev/null; then grep=ggrep; else grep="grep"; fi
   if $grep --version | grep -w 'BSD' > /dev/null; then log_err "GNU grep is required; Install with 'brew install grep'" && exit 1; fi
 
   case $commit_msg in

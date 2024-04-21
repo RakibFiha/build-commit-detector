@@ -5,7 +5,7 @@ set -euo pipefail
 
 usage() { 
   echo "Usage:" && echo "  $(basename "$0") COMMIT_MSG KEYWORDS (Space seperated string)"; 
-  echo "  ENV: [BUILD_COMMIT_DETECTOR_STRICTNESS: default less (ACTION PROVIDED)], [RUNNER_DEBUG: default false (GITHUB PROVIDED)]"
+  echo "  ENV: [BUILD_COMMIT_DETECTOR_STRICTNESS: default less, can also be moderate or high (ACTION PROVIDED)], [RUNNER_DEBUG: default false (GITHUB PROVIDED)]"
 }
 
 log_info() { echo "$@" | sed 's/^/INFO:\t/' >&2; }
@@ -30,15 +30,15 @@ detect_build_necessity() {
   esac
 
   log_info "keywords: ${keywords[*]}"
+
   for keyword in "${keywords[@]}"; do
-    log_info "keyword: $keyword"
     if $grep -wP "(?<![\w-])$keyword(?![\w-])" <<< "$commit_msg"; then
       echo "build_necessary=false" | tee -a "${GITHUB_ENV:-/dev/null}" "${GITHUB_OUTPUT:-/dev/null}"
-      if [[ "${BUILD_COMMIT_DETECTOR_STRICTNESS:-low}" == "high" ]]; then
-        log_err "BUILD_COMMIT_DETECTOR_STRICTNESS is set to high... Exiting..." && exit 1
-      else
-        return
-      fi
+      case ${BUILD_COMMIT_DETECTOR_STRICTNESS:-low} in
+        low) return 0 ;;
+        moderate) log_warning "BUILD_COMMIT_DETECTOR_STRICTNESS is set to moderate.." && return 1 ;;
+        high) log_err "BUILD_COMMIT_DETECTOR_STRICTNESS is set to high... Exiting..." && exit 1 ;;
+      esac
     fi
   done
 

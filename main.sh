@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2001
 
 set -euo pipefail
 
@@ -7,11 +8,8 @@ usage() {
   echo "  ENV: [BUILD_COMMIT_DETECTOR_STRICTNESS: default less (ACTION PROVIDED)], [RUNNER_DEBUG: default false (GITHUB PROVIDED)]"
 }
 
-# shellcheck disable=SC2001
 log_info() { echo "$@" | sed 's/^/INFO:\t/' >&2; }
-# shellcheck disable=SC2001
 log_err() { echo "$@" | sed 's/^/ERROR:\t/' >&2; }
-# shellcheck disable=SC2001
 log_warning() { echo "$@" | sed 's/^/WARNING:\t/' >&2; }
 
 detect_build_necessity() {
@@ -21,6 +19,9 @@ detect_build_necessity() {
 
   IFS=' ' read -r -a keywords <<< "$keywords_str"
 
+  if type -p ggrep > /dev/null; then grep=ggrep; else grep=grep; fi
+  if $grep --version | grep -w 'BSD' > /dev/null; then log_err "GNU grep is required; Install with 'brew install grep'" && exit 1; fi
+
   case $commit_msg in
     --|' ')
       log_warning "commit_msg: is not set; using '$(git log --format=%B -n 1 HEAD)'"
@@ -29,10 +30,9 @@ detect_build_necessity() {
   esac
 
   log_info "keywords: ${keywords[*]}"
-
   for keyword in "${keywords[@]}"; do
     log_info "keyword: $keyword"
-    if grep -qw -e "$keyword" <<< "$commit_msg"; then
+    if $grep -wP "(?<![\w-])$keyword(?![\w-])" <<< "$commit_msg"; then
       echo "build_necessary=false" | tee -a "${GITHUB_ENV:-/dev/null}" "${GITHUB_OUTPUT:-/dev/null}"
       if [[ "${BUILD_COMMIT_DETECTOR_STRICTNESS:-low}" == "high" ]]; then
         log_err "BUILD_COMMIT_DETECTOR_STRICTNESS is set to high... Exiting..." && exit 1

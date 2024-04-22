@@ -10,8 +10,8 @@ inputs:
     description: "Keywords, space seperated string to match word, to skip build, for example skip-ci, skip-build"
     default: "skip-ci skip-build"
   strictness:
-    description: "string, value can be less, moderate or high"
-    default: less
+    description: "string, value can be low, moderate or high"
+    default: low
 
 outputs:
   build_necessary:
@@ -27,4 +27,4 @@ runs:
         "${{ github.action_path }}/main.sh" "${{ inputs.commit_msg || ' ' }}" "${{ inputs.keywords || 'skip-ci skip-build' }}"
       shell: bash
       env:
-        BUILD_COMMIT_DETECTOR_STRICTNESS: ${{ inputs.strictness || 'less' }}
+        BUILD_COMMIT_DETECTOR_STRICTNESS: ${{ inputs.strictness || 'low' }}

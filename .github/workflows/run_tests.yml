@@ -1,5 +1,5 @@
 ---
-name: "Run on pull request"
+name: "Run tests on pull request and push to main branch"
 on:
   pull_request:
     branches:
@@ -19,7 +19,7 @@ defaults:
     shell: bash --noprofile --norc -euo pipefail {0}
 
 jobs:
-  pr-checks:
+  run-tests:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -51,5 +51,5 @@ jobs:
         with:
           assert-path: ${{ github.workspace }}/test/test_helper/bats-assert
 
-      - name: Run bats
+      - name: Run Bats tests
         run: bats test/test.bats

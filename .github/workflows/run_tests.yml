@@ -19,7 +19,7 @@ defaults:
     shell: bash --noprofile --norc -euo pipefail {0}
 
 jobs:
-  pr-checks:
+  run-tests:
     runs-on: ubuntu-latest
     permissions:
       contents: read

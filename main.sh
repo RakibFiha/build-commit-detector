@@ -5,7 +5,7 @@ set -euo pipefail
 
 usage() { 
   echo "Usage:" && echo "  $(basename "$0") COMMIT_MSG KEYWORDS (Space seperated string)"; 
-  echo "  ENV: [BUILD_COMMIT_DETECTOR_STRICTNESS: default less, can also be moderate or high (ACTION PROVIDED)], [RUNNER_DEBUG: default false (GITHUB PROVIDED)]"
+  echo "  ENV: [BUILD_COMMIT_DETECTOR_STRICTNESS: default low, can also be moderate or high (ACTION PROVIDED)], [RUNNER_DEBUG: default false (GITHUB PROVIDED)]"
 }
 
 log_info() { echo "$@" | sed 's/^/INFO:\t/' >&2; }

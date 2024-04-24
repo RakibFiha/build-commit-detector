@@ -1,5 +1,9 @@
 ### README
 
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![main](https://github.com/RakibFiha/build-commit-detector/actions/workflows/run_tests.yml/badge.svg)](https://github.com/RakibFiha/build-commit-detector/actions/workflows/run_tests.yml)
+
 #### build-commit-detector
 
 - Detect if build is necessary by commit message

@@ -56,12 +56,14 @@ setup() {
   [ "$status" -eq 1 ]
 }
 
-@test "./main.sh '--' 'skip-ci' 'DEPLOY'" {
+@test "./main.sh '--' 'skip-ci' 'DEPLOY' 1" {
   run ./main.sh '--' 'skip-ci' 'DEPLOY'
   assert_output --partial '"deploy": "true"'
 
   [ "$status" -eq 0 ]
+}
 
+@test "./main.sh '--' 'skip-ci' 'DEPLOY' 2" {
   run ./main.sh ' ' 'skip-ci' 'DEPLOY'
   assert_output --partial '"deploy": "true"'
 

@@ -10,7 +10,7 @@ log_info() { echo "$@" | sed 's/^/INFO:\t/' >&2; }
 log_err() { echo "$@" | sed 's/^/ERROR:\t/' >&2; }
 log_warning() { echo "$@" | sed 's/^/WARNING:\t/' >&2; }
 
-build_necessary_json_output() {
+build_necessity_json_output() {
   local key=$1
   local value=$2
   local output
@@ -44,7 +44,7 @@ detect_build_necessity() {
   for keyword in "${keywords[@]}"; do
     if $grep -wP "(?<![\w-])$keyword(?![\w-])" <<< "$commit_msg"; then
 
-      build_necessary_json_output build false | tee -a "${GITHUB_ENV:-/dev/null}" "${GITHUB_OUTPUT:-/dev/null}"
+      build_necessity_json_output build false | tee -a "${GITHUB_ENV:-/dev/null}" "${GITHUB_OUTPUT:-/dev/null}"
 
       case ${BUILD_COMMIT_DETECTOR_STRICTNESS:-low} in
         low) return 0 ;;
@@ -54,7 +54,7 @@ detect_build_necessity() {
     fi
   done
 
-  build_necessary_json_output build true | tee -a "${GITHUB_ENV:-/dev/null}" "${GITHUB_OUTPUT:-/dev/null}"
+  build_necessity_json_output build true | tee -a "${GITHUB_ENV:-/dev/null}" "${GITHUB_OUTPUT:-/dev/null}"
 }
 
 if "${RUNNER_DEBUG:-false}"; then set -x; fi

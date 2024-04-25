@@ -12,15 +12,15 @@ detect_build_necessity() {
   local keywords_str=$2
   local detect_type=$3
   local keywords
+  local detect_type="${detect_type,,}"
 
   IFS=' ' read -r -a keywords <<< "$keywords_str"
   if type -p ggrep > /dev/null; then grep=ggrep; else grep="grep"; fi
   if $grep --version | grep -w 'BSD' > /dev/null; then log_err "GNU grep is required; Install with 'brew install grep'" && exit 1; fi
 
-  if [[ "${detect_type,,}" != "build" ]] && [[ "${detect_type,,}" != "deploy" ]]; then
+  if [[ "$detect_type" != "build" ]] && [[ "$detect_type" != "deploy" ]]; then
     log_err "Invalid detect_type: ${detect_type}; Valid options: build, deploy" && exit 1
   fi
-
   if [[ "$commit_msg" == '--' ]] || [[ "$commit_msg" == ' ' ]]; then
     log_warning "commit_msg: is not set; using '$(git log --format=%B -n 1 HEAD)'"
     commit_msg="$(git log --format=%B -n 1 HEAD)"

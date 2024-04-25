@@ -10,11 +10,7 @@ build_necessity_json_output() {
   local value=$2
   local output
 
-  output="$(jq -n \
-      --arg key "$key" \
-      --arg value "$value" \
-      '{ ($key): $value }'
-  )"
+  output="$(jq -n --arg key "$key" --arg value "$value" '{($key):$value}')"
 
-  echo "$output"
+  echo "$output" | tr -d '\n'
 }

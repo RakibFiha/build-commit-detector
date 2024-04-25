@@ -1,6 +1,6 @@
-name: "Detect if build is necessarry from commit message"
+name: "Detect if build or deploy is necessarry from commit message"
 
-description: "GitHub Action that analyzes commit message to determine if build is necessary"
+description: "GitHub Action that analyzes commit message to determine if build or deploy is necessary"
 
 inputs:
   commit_msg:
@@ -12,6 +12,9 @@ inputs:
   strictness:
     description: "string, value can be low, moderate or high"
     default: low
+  detect_type:
+    description: "detection type: build or deploy"
+    default: build
 
 outputs:
   build_necessary:
@@ -24,7 +27,7 @@ runs:
     - name: "Detect keyword in commit message"
       id: build_commit_detect
       run: |
-        "${{ github.action_path }}/main.sh" "${{ inputs.commit_msg || ' ' }}" "${{ inputs.keywords || 'skip-ci skip-build' }}"
+        "${{ github.action_path }}/main.sh" "${{ inputs.commit_msg || ' ' }}" "${{ inputs.keywords || 'skip-ci skip-build' }}" "${{ inputs.detect_type || 'build' }}"
       shell: bash
       env:
-        BUILD_COMMIT_DETECTOR_STRICTNESS: ${{ inputs.strictness || 'low' }}
+        BUID_DEPLOY_DETECTOR_STRICTNESS: ${{ inputs.strictness || 'low' }}

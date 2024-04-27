@@ -69,7 +69,7 @@ jobs:
     steps:
       - name: See if deploy is necessary
         id: build_detect
-        uses: raksbi/build-commit-detector@main
+        uses: rakibfiha/build-commit-detector@main
         with:
           commit_msg: "${{ matrix.test_deploy_conf.commit_msg }}"
           keywords: "${{ matrix.test_deploy_conf.keywords }}"

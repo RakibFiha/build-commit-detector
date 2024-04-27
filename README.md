@@ -1,8 +1,8 @@
 ### README
 
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![main](https://github.com/RakibFiha/build-commit-detector/actions/workflows/run_tests.yml/badge.svg)](https://github.com/RakibFiha/build-commit-detector/actions/workflows/run_tests.yml)
+[![Build and Deploy test](https://github.com/raksbi/build-commit-detector/actions/workflows/build_deploy.yml/badge.svg)](https://github.com/raksbi/build-commit-detector/actions/workflows/build_deploy.yml)
 
 #### build-commit-detector
 

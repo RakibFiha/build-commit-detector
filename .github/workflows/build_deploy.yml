@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: See if build is necessary
         id: build_detect
-        uses: rakibfiha/build-commit-detector@main
+        uses: raksbi/build-commit-detector@main
         with:
           commit_msg: "${{ matrix.test_build_conf.commit_msg }}"
           keywords: "${{ matrix.test_build_conf.keywords }}"
@@ -69,7 +69,7 @@ jobs:
     steps:
       - name: See if deploy is necessary
         id: build_detect
-        uses: rakibfiha/build-commit-detector@main
+        uses: raksbi/build-commit-detector@main
         with:
           commit_msg: "${{ matrix.test_deploy_conf.commit_msg }}"
           keywords: "${{ matrix.test_deploy_conf.keywords }}"

@@ -1,0 +1,81 @@
+---
+name: Build and Deploy test
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: $${{ github.ref }}-$${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash --noprofile --norc -euo pipefail {0}
+
+jobs:
+  initialise:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+  build_test:
+    needs: initialise
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        test_build_conf:
+          - { commit_msg: 'Initial commit', keywords: 'SKIP-BUILD SKIP-CI' }
+          - { commit_msg: 'SKIP-BUILD Initial commit', keywords: 'SKIP-BUILD SKIP-CI' }
+          - { commit_msg: 'SKIP-CI Initial commit', keywords: 'SKIP-BUILD SKIP-CI' }
+          - { commit_msg: '[SKIP-CI] Initial commit', keywords: '[SKIP-BUILD] [SKIP-CI]' }
+
+    steps:
+      - name: See if build is necessary
+        id: build_detect
+        uses: rakibfiha/build-commit-detector@main
+        with:
+          commit_msg: "${{ matrix.test_build_conf.commit_msg }}"
+          keywords: "${{ matrix.test_build_conf.keywords }}"
+
+      - name: Running build ${{ fromJSON(steps.build_detect.outputs.build_necessary).build }}
+        if: fromJSON(steps.build_detect.outputs.build_necessary).build
+        run: |
+          echo "Running build"
+          echo "Build is necessary"
+
+  deploy_test:
+    needs: initialise
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        test_deploy_conf:
+          - { commit_msg: 'Initial commit', keywords: 'SKIP-DEPLOY SKIP-CI' }
+          - { commit_msg: 'SKIP-DEPLOY Initial commit', keywords: 'SKIP-DEPLOY SKIP-CI' }
+          - { commit_msg: 'SKIP-CI Initial commit', keywords: 'SKIP-DEPLOY SKIP-CI' }
+          - { commit_msg: '[SKIP-CI] Initial commit', keywords: '[SKIP-DEPLOY] [SKIP-CI]' }
+
+    steps:
+      - name: See if deploy is necessary
+        id: build_detect
+        uses: rakibfiha/build-commit-detector@main
+        with:
+          commit_msg: "${{ matrix.test_deploy_conf.commit_msg }}"
+          keywords: "${{ matrix.test_deploy_conf.keywords }}"
+
+      - name: Running deploy ${{ fromJSON(steps.build_detect.outputs.build_necessary).build }}
+        if: fromJSON(steps.build_detect.outputs.build_necessary).build
+        run: |
+          echo "Running deploy"
+          echo "Deployment is necessary"

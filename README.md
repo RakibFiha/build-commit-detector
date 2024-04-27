@@ -32,4 +32,6 @@
 
 #### Example
 
-- See workflows for example
+- See workflows for [example](./.github/workflows/build_deploy.yml)
+
+![Test](./.github/workflows/build_deploy.png)

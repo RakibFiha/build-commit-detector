@@ -73,9 +73,10 @@ jobs:
         with:
           commit_msg: "${{ matrix.test_deploy_conf.commit_msg }}"
           keywords: "${{ matrix.test_deploy_conf.keywords }}"
+          detect_type: deploy
 
-      - name: Running deploy ${{ fromJSON(steps.build_detect.outputs.build_necessary).build }}
-        if: fromJSON(steps.build_detect.outputs.build_necessary).build
+      - name: Running deploy ${{ fromJSON(steps.build_detect.outputs.build_necessary).deploy }}
+        if: fromJSON(steps.build_detect.outputs.build_necessary).deploy
         run: |
           echo "Running deploy"
           echo "Deployment is necessary"

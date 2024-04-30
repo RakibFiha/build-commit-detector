@@ -15,6 +15,9 @@ inputs:
   detect_type:
     description: "detection type: build or deploy"
     default: build
+  directory:
+    description: "directory where to look for commit message, if commit message not specified"
+    default: "."
 
 outputs:
   build_necessary:
@@ -27,7 +30,7 @@ runs:
     - name: "Detect keyword in commit message"
       id: build_commit_detect
       run: |
-        "${{ github.action_path }}/main.sh" "${{ inputs.commit_msg || ' ' }}" "${{ inputs.keywords || 'skip-ci skip-build' }}" "${{ inputs.detect_type || 'build' }}"
+        "${{ github.action_path }}/main.sh" "${{ inputs.commit_msg || ' ' }}" "${{ inputs.keywords || 'skip-ci skip-build' }}" "${{ inputs.detect_type || 'build' }}" "${{ inputs.directory || '.' }}"
       shell: bash
       env:
         BUID_DEPLOY_DETECTOR_STRICTNESS: ${{ inputs.strictness || 'low' }}

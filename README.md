@@ -16,6 +16,7 @@
 | `keywords`    |No <br/> Default: `skip-ci skip-build`                        | Space seperated string of keywords. Will look for exact match.                          |
 | `strictness`  |No <br/> Default: `low` <br/> Can also be `moderate` or `high`| Low strictness, will not exit but will give output `build_necessary`                    |
 | `detect_type` |No <br/> Default: `build` <br/> Can also be `deploy`          | `detect_type` can be `build` or `deploy`                                                |
+| `directory`   |No <br/> Default: `.`                                         | Directory where to look for commit_msg if commit_msg is not specefied                   |
 
 
 #### Outputs
